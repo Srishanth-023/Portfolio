@@ -3,9 +3,9 @@ import { Suspense, useEffect, useRef, useState } from "react";
 
 // Audio lazy loaded
 import { HomeInfo, Loader } from "../components";
-import { soundoff, soundon } from "../assets/icons";
 import { Bird, Island, Plane, Sky } from "../models";
 import { OptimizedLights } from "../components/OptimizedLights";
+import { Preload } from "@react-three/drei";
 
 const Home = () => {
   const audioRef = useRef(null);
@@ -77,10 +77,9 @@ const Home = () => {
         camera={{ near: 0.1, far: 1000 }}
         shadows
       >
-        <Suspense fallback={<Loader />}>
-          <OptimizedLights />
+        <OptimizedLights />
 
-          <Bird />
+        <Suspense fallback={<Loader />}>
           <Sky isRotating={isRotating} />
           <Island
             isRotating={isRotating}
@@ -90,6 +89,10 @@ const Home = () => {
             rotation={[0.1, 4.7077, 0]}
             scale={islandScale}
           />
+        </Suspense>
+
+        <Suspense fallback={null}>
+          <Bird />
           <Plane
             isRotating={isRotating}
             position={biplanePosition}
@@ -97,6 +100,8 @@ const Home = () => {
             scale={biplaneScale}
           />
         </Suspense>
+        
+        <Preload all />
       </Canvas>
 
       <div className='absolute bottom-2 left-2'>

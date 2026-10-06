@@ -245,3 +245,5 @@ export function Island({
     </a.group>
   );
 }
+
+useGLTF.preload(islandScene, '/draco/');
