@@ -7,7 +7,7 @@ import planeScene from "../assets/3d/plane.glb";
 export function Plane({ isRotating, ...props }) {
   const ref = useRef();
   // Load the 3D model and its animations
-  const { scene, animations } = useGLTF(planeScene);
+  const { scene, animations } = useGLTF(planeScene, '/draco/');
   // Get animation actions associated with the plane
   const { actions } = useAnimations(animations, ref);
 

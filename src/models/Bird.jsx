@@ -9,7 +9,7 @@ export function Bird() {
   const birdRef = useRef();
 
   // Load the 3D model and animations from the provided GLTF file
-  const { scene, animations } = useGLTF(birdScene);
+  const { scene, animations } = useGLTF(birdScene, '/draco/');
 
   // Get access to the animations for the bird
   const { actions } = useAnimations(animations, birdRef);

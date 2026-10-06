@@ -5,6 +5,7 @@ import { Suspense, useRef, useState } from "react";
 import { Fox } from "../models";
 import useAlert from "../hooks/useAlert";
 import { Alert, Loader } from "../components";
+import { OptimizedLights } from "../components/OptimizedLights";
 import { personalInfo } from "../constants";
 
 const Contact = () => {
@@ -140,6 +141,7 @@ const Contact = () => {
 
       <div className='lg:w-1/2 w-full lg:h-auto md:h-[550px] h-[350px]'>
         <Canvas
+          shadows
           camera={{
             position: [0, 0, 5],
             fov: 75,
@@ -147,15 +149,7 @@ const Contact = () => {
             far: 1000,
           }}
         >
-          <directionalLight position={[0, 0, 1]} intensity={2.5} />
-          <ambientLight intensity={1} />
-          <pointLight position={[5, 10, 0]} intensity={2} />
-          <spotLight
-            position={[10, 10, 10]}
-            angle={0.15}
-            penumbra={1}
-            intensity={2}
-          />
+          <OptimizedLights />
 
           <Suspense fallback={<Loader />}>
             <Fox
