@@ -1,29 +1,35 @@
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useEffect, useRef, useState } from "react";
 
-import sakura from "../assets/sakura.mp3";
+// Audio lazy loaded
 import { HomeInfo, Loader } from "../components";
 import { soundoff, soundon } from "../assets/icons";
 import { Bird, Island, Plane, Sky } from "../models";
 import { OptimizedLights } from "../components/OptimizedLights";
 
 const Home = () => {
-  const audioRef = useRef(new Audio(sakura));
-  audioRef.current.volume = 0.4;
-  audioRef.current.loop = true;
-
+  const audioRef = useRef(null);
+  
   const [currentStage, setCurrentStage] = useState(1);
   const [isRotating, setIsRotating] = useState(false);
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
 
   useEffect(() => {
     if (isPlayingMusic) {
-      audioRef.current.play();
-    }
-
-    return () => {
+      if (!audioRef.current) {
+        // Load only when requested
+        import('../assets/sakura.mp3').then(module => {
+          audioRef.current = new Audio(module.default);
+          audioRef.current.volume = 0.4;
+          audioRef.current.loop = true;
+          audioRef.current.play();
+        });
+      } else {
+        audioRef.current.play();
+      }
+    } else if (audioRef.current) {
       audioRef.current.pause();
-    };
+    }
   }, [isPlayingMusic]);
 
   const adjustBiplaneForScreenSize = () => {
