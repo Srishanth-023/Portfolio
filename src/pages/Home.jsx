@@ -3,6 +3,7 @@ import { Suspense, useEffect, useRef, useState } from "react";
 
 // Audio lazy loaded
 import { HomeInfo, Loader } from "../components";
+import { soundoff, soundon } from "../assets/icons";
 import { Bird, Island, Plane, Sky } from "../models";
 import { OptimizedLights } from "../components/OptimizedLights";
 import { Preload } from "@react-three/drei";
