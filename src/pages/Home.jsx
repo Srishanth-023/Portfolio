@@ -7,6 +7,7 @@ import { soundoff, soundon } from "../assets/icons";
 import { Bird, Island, Plane, Sky } from "../models";
 import { OptimizedLights } from "../components/OptimizedLights";
 import { Preload } from "@react-three/drei";
+import { useStore } from "../store";
 
 const Home = () => {
   const audioRef = useRef(null);
@@ -14,6 +15,10 @@ const Home = () => {
   const [currentStage, setCurrentStage] = useState(1);
   const [isRotating, setIsRotating] = useState(false);
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
+
+  const quality = useStore((state) => state.quality);
+  // Calculate dynamic DPR cap based on device tier
+  const dprCap = quality === 'high' ? 2 : (quality === 'medium' ? 1.5 : 1);
 
   useEffect(() => {
     if (isPlayingMusic) {
@@ -72,6 +77,7 @@ const Home = () => {
       </div>
 
       <Canvas
+        dpr={[1, dprCap]}
         className={`w-full h-screen bg-transparent ${
           isRotating ? "cursor-grabbing" : "cursor-grab"
         }`}

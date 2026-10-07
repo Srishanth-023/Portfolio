@@ -10,31 +10,50 @@
     <link rel="preload" href="/src/assets/3d/island.glb" as="fetch" crossorigin="anonymous" />
 
     <style>
-      /* Pure CSS Preloader */
+      /* Creative CSS Preloader */
       #initial-loader {
         position: fixed;
-        top: 0; left: 0; width: 100vw; height: 100vh;
-        background: #f1f5f9; /* slate-100 */
+        inset: 0;
+        background: #0f172a; /* slate-900 */
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         z-index: 9999;
         font-family: system-ui, -apple-system, sans-serif;
+        color: #f8fafc;
       }
-      .spinner {
-        width: 50px; height: 50px;
-        border: 4px solid rgba(59, 130, 246, 0.2); /* blue-500 opacity-20 */
-        border-top: 4px solid #3b82f6; /* blue-500 */
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
+      .loader-brand {
+        font-size: 1.2rem;
+        font-weight: 300;
+        letter-spacing: 14px;
+        margin-bottom: 2rem;
+        margin-right: -14px; /* compensate for letter spacing */
+        opacity: 0.9;
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
       }
-      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-      .loader-text {
-        margin-top: 20px;
-        color: #334155; /* slate-700 */
-        font-weight: 600;
-        letter-spacing: 1px;
+      .loader-track {
+        width: 200px;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+      .loader-fill {
+        position: absolute;
+        top: 0; left: 0; height: 100%;
+        width: 100%;
+        background: #ffffff;
+        transform-origin: left;
+        animation: load-indeterminate 1.5s infinite ease-in-out;
+      }
+      @keyframes load-indeterminate {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
       }
     </style>
     <title>Srishanth | Portfolio</title>
@@ -42,8 +61,10 @@
   <body>
     <div id="root">
       <div id="initial-loader">
-        <div class="spinner"></div>
-        <div class="loader-text">SRISHANTH</div>
+        <div class="loader-brand">SRISHANTH</div>
+        <div class="loader-track">
+          <div class="loader-fill"></div>
+        </div>
       </div>
     </div>
     <script type="module" src="/src/main.jsx"></script>

@@ -7,6 +7,7 @@ import useAlert from "../hooks/useAlert";
 import { Alert, Loader } from "../components";
 import { OptimizedLights } from "../components/OptimizedLights";
 import { personalInfo } from "../constants";
+import { useStore } from "../store";
 
 const Contact = () => {
   const formRef = useRef();
@@ -14,6 +15,9 @@ const Contact = () => {
   const { alert, showAlert, hideAlert } = useAlert();
   const [loading, setLoading] = useState(false);
   const [currentAnimation, setCurrentAnimation] = useState("idle");
+
+  const quality = useStore((state) => state.quality);
+  const dprCap = quality === 'high' ? 2 : (quality === 'medium' ? 1.5 : 1);
 
   const handleChange = ({ target: { name, value } }) => {
     setForm({ ...form, [name]: value });
@@ -141,6 +145,7 @@ const Contact = () => {
 
       <div className='lg:w-1/2 w-full lg:h-auto md:h-[550px] h-[350px]'>
         <Canvas
+          dpr={[1, dprCap]}
           shadows
           camera={{
             position: [0, 0, 5],

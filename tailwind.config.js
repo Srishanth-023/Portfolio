@@ -24,6 +24,16 @@ export default {
       },
       boxShadow: {
         card: '0px 1px 2px 0px rgba(0, 0, 0, 0.05)'
+      },
+      animation: {
+        'load-indeterminate': 'load-indeterminate 1.5s infinite ease-in-out',
+      },
+      keyframes: {
+        'load-indeterminate': {
+          '0%': { transform: 'translateX(-100%) scaleX(0.2)' },
+          '50%': { transform: 'translateX(0) scaleX(1)' },
+          '100%': { transform: 'translateX(100%) scaleX(0.2)' },
+        }
       }
     },
   },
