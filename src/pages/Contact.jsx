@@ -1,25 +1,18 @@
 import emailjs from "@emailjs/browser";
 import { Suspense, useRef, useState } from "react";
-import { View, PerspectiveCamera } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
 
 import { Fox } from "../models";
 import useAlert from "../hooks/useAlert";
 import { Alert, Loader } from "../components";
-import { OptimizedLights } from "../components/OptimizedLights";
 import { personalInfo } from "../constants";
-import { useStore } from "../store";
-import { r3fTunnel } from "../tunnel";
 
 const Contact = () => {
   const formRef = useRef();
-  const viewRef = useRef();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const { alert, showAlert, hideAlert } = useAlert();
   const [loading, setLoading] = useState(false);
   const [currentAnimation, setCurrentAnimation] = useState("idle");
-
-  const quality = useStore((state) => state.quality);
-  const dprCap = quality === 'high' ? 2 : (quality === 'medium' ? 1.5 : 1);
 
   const handleChange = ({ target: { name, value } }) => {
     setForm({ ...form, [name]: value });
@@ -151,22 +144,35 @@ const Contact = () => {
         </form>
       </div>
 
-      <div ref={viewRef} className='lg:w-1/2 w-full lg:h-auto md:h-[550px] h-[350px]'>
-        <r3fTunnel.In>
-          <View track={viewRef}>
-            <PerspectiveCamera makeDefault position={[0, 0, 5]} fov={75} near={0.1} far={1000} />
-            <OptimizedLights />
+      <div className='lg:w-1/2 w-full lg:h-auto md:h-[550px] h-[350px]'>
+        <Canvas
+          camera={{
+            position: [0, 0, 5],
+            fov: 75,
+            near: 0.1,
+            far: 1000,
+          }}
+          dpr={[1, 2]}
+        >
+          <directionalLight position={[0, 0, 1]} intensity={2.5} />
+          <ambientLight intensity={1} />
+          <pointLight position={[5, 10, 0]} intensity={2} />
+          <spotLight
+            position={[10, 10, 10]}
+            angle={0.15}
+            penumbra={1}
+            intensity={2}
+          />
 
-            <Suspense fallback={null}>
-              <Fox
-                currentAnimation={currentAnimation}
-                position={[0.5, 0.35, 0]}
-                rotation={[12.629, -0.6, 0]}
-                scale={[0.5, 0.5, 0.5]}
-              />
-            </Suspense>
-          </View>
-        </r3fTunnel.In>
+          <Suspense fallback={null}>
+            <Fox
+              currentAnimation={currentAnimation}
+              position={[0.5, 0.35, 0]}
+              rotation={[12.629, -0.6, 0]}
+              scale={[0.5, 0.5, 0.5]}
+            />
+          </Suspense>
+        </Canvas>
       </div>
     </section>
   );
