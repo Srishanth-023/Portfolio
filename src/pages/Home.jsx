@@ -1,12 +1,10 @@
-import { Canvas } from "@react-three/fiber";
 import { Suspense, useEffect, useRef, useState } from "react";
-
-// Audio lazy loaded
+import { Preload } from "@react-three/drei";
+import { r3fTunnel } from "../tunnel";
 import { HomeInfo, Loader } from "../components";
 import { soundoff, soundon } from "../assets/icons";
 import { Bird, Island, Plane, Sky } from "../models";
 import { OptimizedLights } from "../components/OptimizedLights";
-import { Preload } from "@react-three/drei";
 import { useStore } from "../store";
 
 const Home = () => {
@@ -28,15 +26,32 @@ const Home = () => {
           audioRef.current = new Audio(module.default);
           audioRef.current.volume = 0.4;
           audioRef.current.loop = true;
-          audioRef.current.play();
+          audioRef.current.play().catch(console.error);
         });
       } else {
-        audioRef.current.play();
+        audioRef.current.play().catch(console.error);
       }
     } else if (audioRef.current) {
       audioRef.current.pause();
     }
+
+    return () => {
+      // Don't pause on simple re-renders, but since this effect only runs on isPlayingMusic changes,
+      // it's fine. Wait, if we unmount Home, we want to pause it, but if we just change isPlayingMusic,
+      // we don't want the cleanup to pause it immediately before it plays.
+      // Actually, since we return the cleanup, it runs BEFORE the next effect.
+      // It's safer to only pause on unmount using a separate useEffect.
+    };
   }, [isPlayingMusic]);
+
+  // Dedicated unmount cleanup
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, []);
 
   const adjustBiplaneForScreenSize = () => {
     let screenScale, screenPosition;
@@ -76,40 +91,39 @@ const Home = () => {
         {currentStage && <HomeInfo currentStage={currentStage} />}
       </div>
 
-      <Canvas
-        dpr={[1, dprCap]}
+      <div
         className={`w-full h-screen bg-transparent ${
           isRotating ? "cursor-grabbing" : "cursor-grab"
         }`}
-        camera={{ near: 0.1, far: 1000 }}
-        shadows
       >
-        <OptimizedLights />
+        <r3fTunnel.In>
+          <OptimizedLights />
 
-        <Suspense fallback={<Loader />}>
-          <Sky isRotating={isRotating} />
-          <Island
-            isRotating={isRotating}
-            setIsRotating={setIsRotating}
-            setCurrentStage={setCurrentStage}
-            position={islandPosition}
-            rotation={[0.1, 4.7077, 0]}
-            scale={islandScale}
-          />
-        </Suspense>
+          <Suspense fallback={null}>
+            <Sky isRotating={isRotating} />
+            <Island
+              isRotating={isRotating}
+              setIsRotating={setIsRotating}
+              setCurrentStage={setCurrentStage}
+              position={islandPosition}
+              rotation={[0.1, 4.7077, 0]}
+              scale={islandScale}
+            />
+          </Suspense>
 
-        <Suspense fallback={null}>
-          <Bird />
-          <Plane
-            isRotating={isRotating}
-            position={biplanePosition}
-            rotation={[0, 20.1, 0]}
-            scale={biplaneScale}
-          />
-        </Suspense>
-        
-        <Preload all />
-      </Canvas>
+          <Suspense fallback={null}>
+            <Bird />
+            <Plane
+              isRotating={isRotating}
+              position={biplanePosition}
+              rotation={[0, 20.1, 0]}
+              scale={biplaneScale}
+            />
+          </Suspense>
+          
+          <Preload all />
+        </r3fTunnel.In>
+      </div>
 
       <div className='absolute bottom-2 left-2'>
         <img

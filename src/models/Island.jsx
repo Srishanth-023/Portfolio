@@ -132,7 +132,7 @@ export function Island({
 
   useEffect(() => {
     // Add event listeners for pointer and keyboard events
-    const canvas = gl.domElement;
+    const canvas = document.getElementById("root") || gl.domElement;
     canvas.addEventListener("pointerdown", handlePointerDown);
     canvas.addEventListener("pointerup", handlePointerUp);
     canvas.addEventListener("pointermove", handlePointerMove);
@@ -238,7 +238,7 @@ export function Island({
         geometry={nodes.polySurface949_tree_body_0.geometry}
         material={materials.PaletteMaterial001}
       />
-      <mesh castShadow receiveShadow
+      <mesh receiveShadow
         geometry={nodes.pCube11_rocks1_0.geometry}
         material={materials.PaletteMaterial001}
       />

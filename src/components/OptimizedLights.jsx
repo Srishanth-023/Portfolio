@@ -9,15 +9,20 @@ export const OptimizedLights = () => {
   const dirLightRef = useRef();
 
   useEffect(() => {
-    // We disable autoUpdate for shadows unless the light is moving (which it isn't in Phase 1)
+    // Only disable autoUpdate for shadows on low tier to save performance.
+    // High/medium tiers will update shadows for moving objects (bird, plane).
     if (gl.shadowMap) {
-      gl.shadowMap.autoUpdate = false;
-      gl.shadowMap.needsUpdate = true;
+      if (quality === 'low') {
+        gl.shadowMap.autoUpdate = false;
+        gl.shadowMap.needsUpdate = true;
+      } else {
+        gl.shadowMap.autoUpdate = true;
+      }
     }
   }, [gl, quality]);
 
   const castShadow = quality !== 'low';
-  const mapSize = quality === 'high' ? 1024 : 512;
+  const mapSize = quality === 'high' ? 2048 : (quality === 'medium' ? 1024 : 512);
 
   return (
     <>
@@ -28,6 +33,8 @@ export const OptimizedLights = () => {
         position={[10, 10, 10]}
         intensity={2}
         shadow-mapSize={[mapSize, mapSize]}
+        shadow-bias={-0.0005}
+        shadow-normalBias={0.04}
       >
         <orthographicCamera attach="shadow-camera" args={[-20, 20, 20, -20, 0.1, 50]} />
       </directionalLight>

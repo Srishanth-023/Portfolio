@@ -1,6 +1,6 @@
 import emailjs from "@emailjs/browser";
-import { Canvas } from "@react-three/fiber";
 import { Suspense, useRef, useState } from "react";
+import { View, PerspectiveCamera } from "@react-three/drei";
 
 import { Fox } from "../models";
 import useAlert from "../hooks/useAlert";
@@ -8,9 +8,11 @@ import { Alert, Loader } from "../components";
 import { OptimizedLights } from "../components/OptimizedLights";
 import { personalInfo } from "../constants";
 import { useStore } from "../store";
+import { r3fTunnel } from "../tunnel";
 
 const Contact = () => {
   const formRef = useRef();
+  const viewRef = useRef();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const { alert, showAlert, hideAlert } = useAlert();
   const [loading, setLoading] = useState(false);
@@ -28,22 +30,28 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (loading) return; // double-check
     setLoading(true);
     setCurrentAnimation("hit");
 
-    emailjs
-      .send(
-        import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
-        {
-          from_name: form.name,
-          to_name: personalInfo.name,
-          from_email: form.email,
-          to_email: personalInfo.contactEmail,
-          message: form.message,
-        },
-        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
-      )
+    const emailPromise = emailjs.send(
+      import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
+      {
+        from_name: form.name,
+        to_name: personalInfo.name,
+        from_email: form.email,
+        to_email: personalInfo.contactEmail,
+        message: form.message,
+      },
+      import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
+    );
+
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error("Request timed out")), 10000)
+    );
+
+    Promise.race([emailPromise, timeoutPromise])
       .then(
         () => {
           setLoading(false);
@@ -61,11 +69,11 @@ const Contact = () => {
               email: "",
               message: "",
             });
-          }, [3000]);
+          }, 3000); // Fixed from [3000] array literal
         },
         (error) => {
           setLoading(false);
-          console.error(error);
+          console.error("EmailJS Error:", error);
           setCurrentAnimation("idle");
 
           showAlert({
@@ -143,28 +151,22 @@ const Contact = () => {
         </form>
       </div>
 
-      <div className='lg:w-1/2 w-full lg:h-auto md:h-[550px] h-[350px]'>
-        <Canvas
-          dpr={[1, dprCap]}
-          shadows
-          camera={{
-            position: [0, 0, 5],
-            fov: 75,
-            near: 0.1,
-            far: 1000,
-          }}
-        >
-          <OptimizedLights />
+      <div ref={viewRef} className='lg:w-1/2 w-full lg:h-auto md:h-[550px] h-[350px]'>
+        <r3fTunnel.In>
+          <View track={viewRef}>
+            <PerspectiveCamera makeDefault position={[0, 0, 5]} fov={75} near={0.1} far={1000} />
+            <OptimizedLights />
 
-          <Suspense fallback={<Loader />}>
-            <Fox
-              currentAnimation={currentAnimation}
-              position={[0.5, 0.35, 0]}
-              rotation={[12.629, -0.6, 0]}
-              scale={[0.5, 0.5, 0.5]}
-            />
-          </Suspense>
-        </Canvas>
+            <Suspense fallback={null}>
+              <Fox
+                currentAnimation={currentAnimation}
+                position={[0.5, 0.35, 0]}
+                rotation={[12.629, -0.6, 0]}
+                scale={[0.5, 0.5, 0.5]}
+              />
+            </Suspense>
+          </View>
+        </r3fTunnel.In>
       </div>
     </section>
   );

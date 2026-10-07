@@ -5,6 +5,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import HomeInfo from "./HomeInfo";
 import PageLoader from "./PageLoader";
+import ErrorFallback from "./ErrorFallback";
 
 export {
   CTA,
@@ -13,5 +14,6 @@ export {
   Navbar,
   Footer,
   HomeInfo,
-  PageLoader
+  PageLoader,
+  ErrorFallback
 }
