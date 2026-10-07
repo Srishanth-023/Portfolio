@@ -84,7 +84,7 @@ const HomeInfo = ({ currentStage }) => {
           Let's connect professionally!
         </p>
 
-        <a href={linkedinLink?.link} target="_blank" rel="noreferrer" className='neo-brutalism-white neo-btn'>
+        <a href={linkedinLink?.link} target="_blank" rel="noreferrer" className='neo-brutalism-white neo-btn whitespace-nowrap'>
           View my LinkedIn
           <img src={linkedinLink?.iconUrl || arrow} alt='linkedin' className='w-4 h-4 object-contain' />
         </a>
@@ -100,11 +100,11 @@ const HomeInfo = ({ currentStage }) => {
         </p>
 
         <div className='flex gap-2 w-full'>
-          <a href='/resume.pdf' target="_blank" rel="noreferrer" className='neo-brutalism-white neo-btn flex-1 text-center text-sm'>
+          <a href={`${import.meta.env.BASE_URL}resume.pdf`} target="_blank" rel="noreferrer" className='neo-brutalism-white neo-btn flex-1 text-center text-sm'>
             View
             <img src={arrow} alt='resume' className='w-4 h-4 object-contain ml-2 inline-block' />
           </a>
-          <a href='/resume.pdf' download="Srishanth_Resume.pdf" className='neo-brutalism-white neo-btn flex-1 text-center text-sm'>
+          <a href={`${import.meta.env.BASE_URL}resume.pdf`} download="Srishanth_Resume.pdf" className='neo-brutalism-white neo-btn flex-1 text-center text-sm'>
             Download
             <img src={arrow} alt='download' className='w-4 h-4 object-contain ml-2 inline-block transform rotate-90' />
           </a>
