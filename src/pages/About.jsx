@@ -16,8 +16,7 @@ const About = () => {
         <span className='blue-gradient_text font-semibold drop-shadow'>
           {" "}
           {personalInfo.displayName}
-        </span>{" "}
-        👋
+        </span>
       </h1>
 
       <div className='mt-5 flex flex-col gap-3 text-slate-500'>

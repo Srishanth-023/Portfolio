@@ -9,7 +9,6 @@ const HomeInfo = ({ currentStage }) => {
       <h1 className='sm:text-xl sm:leading-snug text-center neo-brutalism-blue py-4 px-8 text-white mx-5'>
         {personalInfo.aboutHeading}
         <span className='font-semibold mx-2 text-white'>{personalInfo.displayName}</span>
-        👋
         <br />
         {personalInfo.titles}
       </h1>
