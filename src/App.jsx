@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, HashRouter as Router, Routes } from "react-router-dom";
 import { Suspense, lazy } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -14,7 +14,7 @@ const App = () => {
   return (
     <main className='bg-slate-300/20 relative w-full h-full'>
       <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => window.location.reload()}>
-        <Router basename={import.meta.env.BASE_URL}>
+        <Router>
           <Navbar />
           <Suspense fallback={<PageLoader />}>
             <Routes>
