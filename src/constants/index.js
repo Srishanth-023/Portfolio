@@ -57,17 +57,25 @@ export const skills = [
 
 export const experiences = [
     {
-        title: "Middleware Developer",
-        company_name: "Pinesphere",
+        title: "Software Development Intern",
+        company_name: "Pinesphere Solutions Pvt. Ltd.",
         icon: "https://api.iconify.design/flat-color-icons:globe.svg",
         iconBg: "#accbe1",
-        date: "Dates not specified",
+        date: "July 2026 - Sept 2026",
         points: [
-            "Worked on an Internship and Placement Management SaaS platform.",
-            "Backend and middleware development; API development; database integration.",
-            "Repository and service architecture; SQLAlchemy model development.",
-            "API schema design; router implementation; Swagger/OpenAPI documentation.",
-            "Frontend-backend integration. Tech: FastAPI, Next.js, PostgreSQL, SQLAlchemy.",
+            "Architected an enterprise internship ERP system using FastAPI, Next.js and PostgreSQL.",
+            "Engineered an enterprise hotel management system automating operations, billing and compliance.",
+        ],
+    },
+    {
+        title: "Automation Development Intern",
+        company_name: "Struzon Technologies Pvt. Ltd.",
+        icon: "https://api.iconify.design/flat-color-icons:engineering.svg",
+        iconBg: "#fbc3bc",
+        date: "Sept 2026 - Current",
+        points: [
+            "Developed automation tools using Python and APIs to streamline repetitive workflows.",
+            "Engineered and maintained industrial-grade software solutions using modern full-stack technologies.",
         ],
     }
 ];
