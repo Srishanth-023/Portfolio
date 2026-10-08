@@ -1,5 +1,6 @@
 import { Suspense, useRef, useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
 
 import { Fox } from "../models";
 import useAlert from "../hooks/useAlert";
@@ -83,20 +84,21 @@ const Contact = () => {
     <section className='relative flex lg:flex-row flex-col max-container'>
       {alert.show && <Alert {...alert} />}
 
-      <div className='flex-1 min-w-[50%] flex flex-col'>
-        <h1 className='head-text'>Get in Touch</h1>
+      <div className='lg:w-[45%] flex flex-col lg:pl-8 xl:pl-12 lg:pr-4'>
+        <div className="flex flex-nowrap items-center gap-4 lg:gap-6">
+          <h1 className='head-text whitespace-nowrap'>Get in Touch</h1>
+          <div className="flex gap-4 mt-2">
+            {socialLinks.map((link) => (
+              <a key={link.name} href={link.link} target="_blank" rel="noreferrer" className="w-10 h-10 flex justify-center items-center rounded-full bg-white shadow-md hover:-translate-y-1 transition-transform">
+                <img src={link.iconUrl} alt={link.name} className="w-1/2 h-1/2 object-contain" />
+              </a>
+            ))}
+          </div>
+        </div>
 
         <p className="text-slate-500 mt-3 max-w-sm">
           Feel free to reach out for collaborations, opportunities, or just to say hi!
         </p>
-
-        <div className="flex gap-4 mt-5">
-          {socialLinks.map((link) => (
-            <a key={link.name} href={link.link} target="_blank" rel="noreferrer" className="w-10 h-10 flex justify-center items-center rounded-full bg-white shadow-md">
-              <img src={link.iconUrl} alt={link.name} className="w-1/2 h-1/2 object-contain" />
-            </a>
-          ))}
-        </div>
 
         {!isConfigured ? (
           <div className="mt-14 p-6 bg-red-50 text-red-800 rounded-lg border border-red-200">
@@ -236,7 +238,7 @@ const Contact = () => {
         )}
       </div>
 
-      <div className='lg:w-1/2 w-full lg:h-auto md:h-[550px] h-[350px]'>
+      <div className='lg:w-[55%] w-full lg:h-auto md:h-[550px] h-[350px]'>
         <Canvas
           camera={{
             position: [0, 0, 5],
@@ -259,10 +261,11 @@ const Contact = () => {
           <Suspense fallback={null}>
             <Fox
               currentAnimation={currentAnimation}
-              position={[0.5, 0.35, 0]}
+              position={[-0.5, 0.35, 0]}
               rotation={[12.629, -0.6, 0]}
               scale={[0.5, 0.5, 0.5]}
             />
+            <OrbitControls enableZoom={false} enablePan={false} />
           </Suspense>
         </Canvas>
       </div>

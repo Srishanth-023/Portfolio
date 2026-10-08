@@ -102,23 +102,25 @@ const About = () => {
         </div>
       </div>
 
-      <div className='py-16'>
-        <h3 className='subhead-text'>Achievements & Community</h3>
-        <ul className='mt-5 list-disc ml-5 space-y-2 text-slate-500'>
-          {achievements.map((achievement, index) => (
-             <li key={`achievement-${index}`} className='text-slate-500 font-normal pl-1'>
-                 {achievement}
-             </li>
-          ))}
-        </ul>
-      </div>
+      <div className='py-16 grid grid-cols-1 lg:grid-cols-2 gap-16'>
+        <div className='flex-1'>
+          <h3 className='subhead-text'>Achievements & Community</h3>
+          <ul className='mt-5 list-disc ml-5 space-y-2 text-slate-500'>
+            {achievements.map((achievement, index) => (
+               <li key={`achievement-${index}`} className='text-slate-500 font-normal pl-1'>
+                   {achievement}
+               </li>
+            ))}
+          </ul>
+        </div>
 
-      <div className='py-16'>
-        <h3 className='subhead-text'>Education</h3>
-        <div className='mt-5 flex flex-col gap-3 text-slate-500'>
-            <p><strong>{personalInfo.education.degree}</strong></p>
-            <p>{personalInfo.education.institution}</p>
-            <p>{personalInfo.education.batch}</p>
+        <div className='flex-1'>
+          <h3 className='subhead-text'>Education</h3>
+          <div className='mt-5 flex flex-col gap-3 text-slate-500'>
+              <p><strong>{personalInfo.education.degree}</strong></p>
+              <p>{personalInfo.education.institution}</p>
+              <p>{personalInfo.education.batch}</p>
+          </div>
         </div>
       </div>
 
