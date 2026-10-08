@@ -14,6 +14,7 @@ const Contact = () => {
   const [loading, setLoading] = useState(false);
   const [currentAnimation, setCurrentAnimation] = useState("idle");
   const [isConfigured, setIsConfigured] = useState(true);
+  const [messageSent, setMessageSent] = useState(false);
 
   useEffect(() => {
     if (!import.meta.env.VITE_WEB3FORMS_ACCESS_KEY) {
@@ -62,18 +63,8 @@ const Contact = () => {
 
       localStorage.setItem("lastMessageSent", Date.now().toString());
       setLoading(false);
-      
-      showAlert({
-        show: true,
-        text: "Thank you for your message!",
-        type: "success",
-      });
-
-      setTimeout(() => {
-        hideAlert(false);
-        setCurrentAnimation("idle");
-        setForm({ name: "", email: "", subject: "", message: "", botcheck: false });
-      }, 3000);
+      setMessageSent(true);
+      setCurrentAnimation("idle");
 
     } catch (error) {
       setLoading(false);
@@ -116,6 +107,27 @@ const Contact = () => {
                 {personalInfo.contactEmail}
               </a>
             </p>
+          </div>
+        ) : messageSent ? (
+          <div className="mt-10 p-8 bg-white shadow-xl rounded-2xl flex flex-col items-center text-center justify-center border border-slate-100">
+            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+              <svg className="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <h3 className="font-bold text-2xl text-slate-800 mb-2">Message Sent!</h3>
+            <p className="text-slate-500 mb-6">
+              Thank you for reaching out. I'll get back to you as soon as possible.
+            </p>
+            <button 
+              onClick={() => {
+                setMessageSent(false);
+                setForm({ name: "", email: "", subject: "", message: "", botcheck: false });
+              }}
+              className="btn w-full"
+            >
+              Send Another Message
+            </button>
           </div>
         ) : (
           <form

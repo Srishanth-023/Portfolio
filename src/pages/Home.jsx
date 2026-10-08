@@ -40,10 +40,10 @@ const Home = () => {
     let screenScale, screenPosition;
     if (window.innerWidth < 768) {
       screenScale = [1.5, 1.5, 1.5];
-      screenPosition = [0, -1.5, 0];
+      screenPosition = [0, -2.5, 0];
     } else {
       screenScale = [3, 3, 3];
-      screenPosition = [0, -4, -4];
+      screenPosition = [0, -5, -4];
     }
     return [screenScale, screenPosition];
   };
@@ -52,10 +52,10 @@ const Home = () => {
     let screenScale, screenPosition;
     if (window.innerWidth < 768) {
       screenScale = [0.9, 0.9, 0.9];
-      screenPosition = [0, -6.5, -43.4];
+      screenPosition = [0, -7.5, -43.4];
     } else {
       screenScale = [1, 1, 1];
-      screenPosition = [0, -6.5, -43.4];
+      screenPosition = [0, -7.5, -43.4];
     }
     return [screenScale, screenPosition];
   };
@@ -65,7 +65,7 @@ const Home = () => {
 
   return (
     <section className='w-full h-screen relative'>
-      <div className='absolute top-28 left-0 right-0 z-10 flex items-center justify-center'>
+      <div className='absolute top-12 left-0 right-0 z-10 flex items-center justify-center'>
         {currentStage && <HomeInfo currentStage={currentStage} />}
       </div>
 

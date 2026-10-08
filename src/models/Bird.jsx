@@ -22,7 +22,7 @@ export function Bird() {
 
   useFrame(({ clock, camera }) => {
     // Update the Y position to simulate bird-like motion using a sine wave
-    birdRef.current.position.y = Math.sin(clock.elapsedTime) * 0.2 + 2;
+    birdRef.current.position.y = Math.sin(clock.elapsedTime) * 0.2 + 1;
 
     // Check if the bird reached a certain endpoint relative to the camera
     if (birdRef.current.position.x > camera.position.x + 10) {
@@ -47,7 +47,7 @@ export function Bird() {
 
   return (
     // to create and display 3D objects
-    <mesh ref={birdRef} position={[-5, 2, 1]} scale={[0.003, 0.003, 0.003]}>
+    <mesh ref={birdRef} position={[-5, 1, 1]} scale={[0.003, 0.003, 0.003]}>
       // use the primitive element when you want to directly embed a complex 3D
       model or scene
       <primitive object={scene} />

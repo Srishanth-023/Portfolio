@@ -1,6 +1,6 @@
 export const personalInfo = {
     name: "Srishanth",
-    initials: "SH",
+    initials: "S",
     displayName: "SRISHANTH",
     titles: "AI & Data Science Student | Full-Stack Developer | AI Enthusiast",
     heroHeading: "Building Intelligent Systems for the Real World.",
